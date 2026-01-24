@@ -1,0 +1,165 @@
+PROJECT: robhutt.com (static one-page landing site)
+CONTEXT:
+Build a very simple, high-impact, minimal one-page landing site for Rob Hutt. Dark theme. Cinematic. Clean. No clutter. No blog, no CMS, no auth, no database. Just a static landing page with four “launch windows” (cards) that will later link out to: Rob Hutt Films, Hutt Studio, CharacterX, IceMaker, FlashBuzz. For now use image placeholders only.
+
+PRIMARY GOAL:
+A polished, Apple-like minimal homepage that feels premium and confident. The copy below is the source of truth. Use UK English spelling.
+
+STACK REQUIREMENTS:
+- Vite + React + TypeScript
+- Tailwind CSS
+- shadcn/ui (optional but preferred for Button/Card components)
+- No backend required
+- Must deploy as a static site (build output only)
+
+DESIGN DIRECTION:
+- Dark theme by default
+- Minimal, bold typography
+- Lots of negative space
+- Subtle gradient background and faint film grain texture effect (CSS only, no images needed)
+- Subtle hover states on cards and buttons
+- Responsive: excellent on mobile, tablet, desktop
+- Max content width: ~1100px
+- Use a single accent colour for highlights (subtle, not neon)
+- Avoid long dashes (—). Use normal hyphens or rewrite.
+
+INFORMATION ARCHITECTURE (single page):
+1) Top nav (very minimal)
+   - Left: “Rob Hutt”
+   - Right: “Work” anchor, “Contact” anchor
+   - Sticky with subtle blur
+
+2) Hero section
+   - Title: Rob Hutt
+   - Subhead lines:
+     “Award-winning filmmaker.”
+     “Founder of Hutt Studio.”
+   - Short intro paragraph:
+     “I work at the intersection of story, strategy, and systems, helping people and organisations communicate with clarity, credibility, and intent.”
+   - Soul Heart Hands line (large and spaced):
+     “Soul. Heart. Hands.”
+   - Primary CTA button: “View the work” (scrolls to Work)
+   - Secondary CTA button: “Get in touch” (scrolls to Contact)
+
+3) Soul Heart Hands section (3 columns on desktop, stacked on mobile)
+   - Soul heading + paragraph
+   - Heart heading + paragraph
+   - Hands heading + paragraph
+
+4) Work section (the launch windows)
+   - A grid of cards (2 columns desktop, 1 column mobile)
+   - Each card includes:
+     - Image placeholder (simple div, 16:9, subtle border, label like “Image placeholder”)
+     - Title
+     - One or two short paragraphs
+     - A button: “Explore” (for now href “#” or a placeholder route)
+   - Cards:
+     A) Rob Hutt Films
+     B) Hutt Studio
+     C) CharacterX
+     D) IceMaker
+     E) FlashBuzz
+   - If the grid looks better with 4 items, keep 4 in the main grid and add FlashBuzz as a full-width card beneath. Prioritise visual balance.
+
+5) Availability section
+   - Simple block with headline and bullet list
+   - CTA: “Start a conversation” button (scrolls to Contact)
+
+6) Contact section
+   - Minimal contact block, no form for now
+   - Show an email placeholder line like: “Email: hello@robhutt.com” (hard-coded placeholder)
+   - Add small note: “If the work feels aligned, I’m always open to a conversation.”
+
+7) Footer
+   - Minimal copyright line: “© {current year} Rob Hutt”
+   - Small links: “Work”, “Contact”
+
+COPY (use exactly, only adjust line breaks for layout, do not change meaning):
+HERO:
+Rob Hutt
+Award-winning filmmaker.
+Founder of Hutt Studio.
+I work at the intersection of story, strategy, and systems – helping people and organisations communicate with clarity, credibility, and intent.
+Soul. Heart. Hands.
+
+SOUL HEART HANDS:
+Soul
+Understanding what truly matters.
+The belief behind a business. The truth inside a story.
+
+Heart
+Connection, empathy, trust.
+How something feels is as important as how it functions.
+
+Hands
+Execution and craft.
+Ideas only matter when they are built properly and delivered into the real world.
+
+FILM:
+Rob Hutt Films
+I’m an award-winning filmmaker with international festival recognition, creating narrative and commercial films that prioritise emotion, atmosphere, and story integrity.
+My work focuses on:
+- Strong visual language
+- Human-led storytelling
+- Films that linger rather than shout
+Film is where my creative instincts were formed, and it remains the foundation of everything else I do.
+
+STUDIO:
+Hutt Studio
+Hutt Studio is where story meets structure.
+It’s the home for my work across marketing strategy, creative technology, and advisory – helping organisations make sense of complexity and communicate with confidence.
+The studio operates across three core areas:
+
+CharacterX
+A strategic system for understanding who a brand really is, and how it should show up.
+CharacterX helps leaders and teams:
+- Clarify positioning
+- Build trust deliberately
+- Communicate with consistency and restraint
+Less noise. More signal.
+
+IceMaker
+An interactive cinematic experience platform for turning knowledge, ideas, and stories into guided visual journeys.
+IceMaker blends:
+- Film language
+- Interactive design
+- AI collaboration
+It exists because most information is badly communicated, and doesn’t need to be.
+
+FlashBuzz
+A video-led marketing consultancy working with SMEs, professional services, and regulated environments.
+FlashBuzz focuses on:
+- Trust-building communication
+- Narrative-driven video
+- Calm, considered delivery where confidence matters
+Especially useful where leaders or teams are not naturally camera-confident.
+
+AVAILABILITY:
+Availability
+I work selectively with organisations, founders, and teams who value clarity, craft, and long-term thinking.
+I’m currently open to:
+- Film commissions
+- Strategic consultancy
+- Creative and technology partnerships
+If the work feels aligned, I’m always open to a conversation.
+
+CLOSING LINE (optional, near footer):
+I don’t believe in hype.
+I believe in good work, done properly.
+
+IMPLEMENTATION DETAILS:
+- Create pages as a single route: “/”
+- Use anchor links (#work, #contact)
+- Add smooth scrolling
+- Add a subtle background: radial gradient + noise overlay via CSS (use pseudo-element with low opacity)
+- Ensure text contrast meets accessibility basics
+- Provide clean component structure:
+  - src/components/Section.tsx
+  - src/components/WorkCard.tsx
+  - src/components/NavBar.tsx
+  - src/components/Footer.tsx
+  - src/pages/Home.tsx
+- Keep it extremely lightweight. No extra pages unless a placeholder “/work” is needed, but prefer a single page only.
+
+DELIVERABLE:
+A running Vite app that builds successfully, looks premium, and matches the copy and structure above.
