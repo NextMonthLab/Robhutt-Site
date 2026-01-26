@@ -5,28 +5,41 @@ import { Section } from "@/components/Section";
 import { Footer } from "@/components/Footer";
 import { ArrowRight, Mail } from "lucide-react";
 
-function WorkCard({ 
-  title, 
-  paragraphs, 
-  bulletPoints, 
+function WorkCard({
+  title,
+  paragraphs,
+  bulletPoints,
   fullWidth,
-  id 
-}: { 
-  title: string; 
-  paragraphs: string[]; 
+  id,
+  image
+}: {
+  title: string;
+  paragraphs: string[];
   bulletPoints?: string[];
   fullWidth?: boolean;
   id: string;
+  image?: string;
 }) {
   return (
-    <Card 
+    <Card
       className={`hover-elevate transition-all duration-300 overflow-visible ${fullWidth ? "md:col-span-2" : ""}`}
       data-testid={`card-${id}`}
     >
-      <div 
-        className="aspect-video bg-muted border-b border-border flex items-center justify-center rounded-t-md"
-        data-testid={`image-placeholder-${id}`}
-      />
+      <div
+        className="aspect-video bg-muted border-b border-border overflow-hidden rounded-t-md"
+        data-testid={`image-container-${id}`}
+      >
+        {image ? (
+          <img
+            src={image}
+            alt={title}
+            className="w-full h-full object-cover object-top"
+            loading="lazy"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center" data-testid={`image-placeholder-${id}`} />
+        )}
+      </div>
       <CardHeader className="pb-2">
         <CardTitle className="text-xl font-semibold tracking-tight" data-testid={`text-card-title-${id}`}>{title}</CardTitle>
       </CardHeader>
@@ -160,6 +173,7 @@ export default function Home() {
             <WorkCard
               id="rob-hutt-films"
               title="Rob Hutt Films"
+              image="https://res.cloudinary.com/drl0fxrkq/image/upload/v1769465047/Screenshot_2026-01-26_at_22.03.51_uajuaq.png"
               paragraphs={[
                 "I'm an award-winning filmmaker with international festival recognition, creating narrative and commercial films that prioritise emotion, atmosphere, and story integrity.",
                 "Film is where my creative instincts were formed, and it remains the foundation of everything else I do."
@@ -173,6 +187,7 @@ export default function Home() {
             <WorkCard
               id="hutt-studio"
               title="Hutt Studio"
+              image="https://res.cloudinary.com/drl0fxrkq/image/upload/v1769464968/Screenshot_2026-01-26_at_22.02.32_eb6laa.png"
               paragraphs={[
                 "Hutt Studio is where story meets structure.",
                 "It's the home for my work across marketing strategy, creative technology, and advisory - helping organisations make sense of complexity and communicate with confidence.",
@@ -182,6 +197,7 @@ export default function Home() {
             <WorkCard
               id="characterx"
               title="CharacterX"
+              image="https://res.cloudinary.com/drl0fxrkq/image/upload/v1769463371/Screenshot_2026-01-26_at_21.35.56_kcexcb.png"
               paragraphs={[
                 "A strategic system for understanding who a brand really is, and how it should show up.",
                 "CharacterX helps leaders and teams:",
@@ -196,6 +212,7 @@ export default function Home() {
             <WorkCard
               id="icemaker"
               title="IceMaker"
+              image="https://res.cloudinary.com/drl0fxrkq/image/upload/v1769463437/Screenshot_2026-01-26_at_21.37.03_xz8mxa.png"
               paragraphs={[
                 "An interactive cinematic experience platform for turning knowledge, ideas, and stories into guided visual journeys.",
                 "It exists because most information is badly communicated, and doesn't need to be."
@@ -211,6 +228,7 @@ export default function Home() {
             <WorkCard
               id="flashbuzz"
               title="FlashBuzz"
+              image="https://res.cloudinary.com/drl0fxrkq/image/upload/v1769463477/Screenshot_2026-01-26_at_21.37.44_jmxlon.png"
               paragraphs={[
                 "A video-led marketing consultancy working with SMEs, professional services, and regulated environments.",
                 "Especially useful where leaders or teams are not naturally camera-confident."
