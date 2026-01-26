@@ -1,8 +1,11 @@
 import { Button } from "@/components/ui/button";
+import { Link, useLocation } from "wouter";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
-  
+  const [location] = useLocation();
+  const isHomePage = location === "/";
+
   const scrollTo = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -18,22 +21,53 @@ export function Footer() {
             &copy; {currentYear} Rob Hutt
           </p>
           <div className="flex items-center gap-2">
-            <Button 
-              variant="ghost" 
+            <Button
+              variant="ghost"
               size="sm"
-              onClick={() => scrollTo("work")}
-              data-testid="button-footer-work"
+              asChild
+              data-testid="button-footer-method"
             >
-              Work
+              <Link href="/method">Method</Link>
             </Button>
-            <Button 
-              variant="ghost" 
-              size="sm"
-              onClick={() => scrollTo("contact")}
-              data-testid="button-footer-contact"
-            >
-              Contact
-            </Button>
+            {isHomePage ? (
+              <>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => scrollTo("work")}
+                  data-testid="button-footer-work"
+                >
+                  Work
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => scrollTo("contact")}
+                  data-testid="button-footer-contact"
+                >
+                  Contact
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  asChild
+                  data-testid="button-footer-work"
+                >
+                  <a href="/#work">Work</a>
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  asChild
+                  data-testid="button-footer-contact"
+                >
+                  <a href="/#contact">Contact</a>
+                </Button>
+              </>
+            )}
           </div>
         </div>
       </div>
