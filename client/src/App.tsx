@@ -5,6 +5,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Home from "@/pages/Home";
 import Method from "@/pages/Method";
+import Planner from "@/pages/Planner";
+import ScorecardComplete from "@/pages/ScorecardComplete";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -12,6 +14,8 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/method" component={Method} />
+      <Route path="/planner/:plannerId" component={Planner} />
+      <Route path="/scorecard/complete" component={ScorecardComplete} />
       <Route component={NotFound} />
     </Switch>
   );

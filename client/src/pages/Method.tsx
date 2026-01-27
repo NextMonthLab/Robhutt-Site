@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { NavBar } from "@/components/NavBar";
 import { Section } from "@/components/Section";
 import { Footer } from "@/components/Footer";
+import { PlannerCta } from "@/components/PlannerCta";
 import { ArrowRight, Check, Compass, Heart, Wrench } from "lucide-react";
 import { motion, useInView } from "framer-motion";
 import { SCORECARD_URL } from "@/lib/constants";
@@ -352,6 +353,14 @@ export default function Method() {
                   <a href="/#contact">Get in touch</a>
                 </Button>
               </div>
+              <div className="mt-10">
+                <PlannerCta
+                  headline="Get your free 90-day planner"
+                  body="Finish the Scorecard and your plan appears instantly. No login."
+                  buttonLabel="Create my plan"
+                  href={SCORECARD_URL}
+                />
+              </div>
             </div>
           </AnimatedSection>
         </Section>
@@ -521,6 +530,15 @@ export default function Method() {
               Tick the statements that feel true for your business right now.
             </p>
           </AnimatedSection>
+
+          <div className="mb-10">
+            <PlannerCta
+              headline="Turn insight into a 90-day mission"
+              body="Weekly actions, milestones, and momentum in minutes."
+              buttonLabel="Build my plan for free"
+              href={SCORECARD_URL}
+            />
+          </div>
 
           <div className="grid md:grid-cols-3 gap-6 mb-8">
             <DiagnosisBlock
