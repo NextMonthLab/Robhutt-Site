@@ -3,7 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { NavBar } from "@/components/NavBar";
 import { Section } from "@/components/Section";
 import { Footer } from "@/components/Footer";
+import { PlannerCta } from "@/components/PlannerCta";
 import { ArrowRight, Mail } from "lucide-react";
+import { SCORECARD_URL, PLANNER_URL } from "@/lib/constants";
 
 function WorkCard({
   title,
@@ -128,22 +130,38 @@ export default function Home() {
               <span className="ml-2 md:ml-3">Hands.</span>
             </p>
             <div className="flex flex-wrap gap-4">
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 onClick={() => scrollTo("work")}
                 data-testid="button-view-work"
               >
                 View the work
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 size="lg"
                 onClick={() => scrollTo("contact")}
                 data-testid="button-get-in-touch"
               >
                 Get in touch
               </Button>
+            </div>
+            <div className="mt-8 flex flex-wrap gap-4">
+              <Button size="lg" asChild data-testid="button-take-scorecard">
+                <a href={SCORECARD_URL} target="_blank" rel="noopener noreferrer">
+                  Take the scorecard
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </a>
+              </Button>
+            </div>
+            <div className="mt-6">
+              <PlannerCta
+                headline="Get your free 90-day planner"
+                body="Finish the Scorecard and your plan appears instantly. No login."
+                buttonLabel="Create my plan"
+                href={PLANNER_URL}
+              />
             </div>
           </div>
         </Section>
