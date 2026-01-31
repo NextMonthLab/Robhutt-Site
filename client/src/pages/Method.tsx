@@ -6,7 +6,7 @@ import { Footer } from "@/components/Footer";
 import { PlannerCta } from "@/components/PlannerCta";
 import { ArrowRight, Check, Compass, Heart, Wrench } from "lucide-react";
 import { motion, useInView } from "framer-motion";
-import { SCORECARD_URL } from "@/lib/constants";
+import { SCORECARD_URL, PLANNER_URL } from "@/lib/constants";
 
 // Animation variants for scroll-triggered animations
 const fadeInUp = {
@@ -358,7 +358,7 @@ export default function Method() {
                   headline="Get your free 90-day planner"
                   body="Finish the Scorecard and your plan appears instantly. No login."
                   buttonLabel="Create my plan"
-                  href={SCORECARD_URL}
+                  href={PLANNER_URL}
                 />
               </div>
             </div>
@@ -536,7 +536,7 @@ export default function Method() {
               headline="Turn insight into a 90-day mission"
               body="Weekly actions, milestones, and momentum in minutes."
               buttonLabel="Build my plan for free"
-              href={SCORECARD_URL}
+              href={PLANNER_URL}
             />
           </div>
 
