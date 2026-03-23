@@ -27,7 +27,7 @@ export function Footer() {
               asChild
               data-testid="button-footer-method"
             >
-              <Link href="/method">Method</Link>
+              <Link href="/method">CharacterX</Link>
             </Button>
             {isHomePage ? (
               <>

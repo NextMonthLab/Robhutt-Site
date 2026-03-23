@@ -3,9 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { NavBar } from "@/components/NavBar";
 import { Section } from "@/components/Section";
 import { Footer } from "@/components/Footer";
-import { PlannerCta } from "@/components/PlannerCta";
 import { ArrowRight, Mail } from "lucide-react";
-import { SCORECARD_URL, PLANNER_URL } from "@/lib/constants";
+import { MEETNORMAN_URL } from "@/lib/constants";
 
 function WorkCard({
   title,
@@ -13,7 +12,8 @@ function WorkCard({
   bulletPoints,
   fullWidth,
   id,
-  image
+  image,
+  href
 }: {
   title: string;
   paragraphs: string[];
@@ -21,7 +21,19 @@ function WorkCard({
   fullWidth?: boolean;
   id: string;
   image?: string;
+  href?: string;
 }) {
+  const exploreButton = href ? (
+    <Button variant="secondary" size="sm" className="mt-4" data-testid={`button-explore-${id}`} asChild>
+      <a href={href} target="_blank" rel="noopener noreferrer">
+        Explore
+        <ArrowRight className="w-4 h-4 ml-1" />
+      </a>
+    </Button>
+  ) : (
+    <span className="inline-block mt-4 text-sm text-muted-foreground/60">Coming soon</span>
+  );
+
   return (
     <Card
       className={`hover-elevate transition-all duration-300 overflow-visible ${fullWidth ? "md:col-span-2" : ""}`}
@@ -59,21 +71,9 @@ function WorkCard({
             ))}
           </ul>
         )}
-        <Button variant="secondary" size="sm" className="mt-4" data-testid={`button-explore-${id}`}>
-          Explore
-          <ArrowRight className="w-4 h-4 ml-1" />
-        </Button>
+        {exploreButton}
       </CardContent>
     </Card>
-  );
-}
-
-function PillarCard({ title, description }: { title: string; description: string }) {
-  return (
-    <div className="space-y-3" data-testid={`pillar-${title.toLowerCase()}`}>
-      <h3 className="text-lg font-semibold text-foreground tracking-tight" data-testid={`text-pillar-${title.toLowerCase()}-title`}>{title}</h3>
-      <p className="text-muted-foreground text-sm leading-relaxed whitespace-pre-line" data-testid={`text-pillar-${title.toLowerCase()}-description`}>{description}</p>
-    </div>
   );
 }
 
@@ -88,13 +88,13 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground relative">
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div 
+        <div
           className="absolute inset-0"
           style={{
             background: "radial-gradient(ellipse at 50% 0%, hsl(220 15% 12%) 0%, transparent 60%)"
           }}
         />
-        <div 
+        <div
           className="absolute inset-0 opacity-[0.03]"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
@@ -104,30 +104,21 @@ export default function Home() {
       </div>
 
       <NavBar />
-      
+
       <main className="relative z-10 pt-24">
         <Section className="pt-32 pb-20 md:pt-40 md:pb-28">
           <div className="max-w-2xl">
-            <h1 
+            <h1
               className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6"
               data-testid="text-hero-title"
             >
               Rob Hutt
             </h1>
-            <div className="space-y-1 mb-6">
-              <p className="text-xl md:text-2xl text-muted-foreground" data-testid="text-hero-subhead-1">Award-winning filmmaker.</p>
-              <p className="text-xl md:text-2xl text-muted-foreground" data-testid="text-hero-subhead-2">Founder of Hutt Studio.</p>
-            </div>
-            <p className="text-lg text-muted-foreground leading-relaxed mb-8 max-w-xl" data-testid="text-hero-intro">
-              I work at the intersection of story, strategy, and systems - helping people and organisations communicate with clarity, credibility, and intent.
+            <p className="text-xl md:text-2xl text-muted-foreground mb-4" data-testid="text-hero-subhead-1">
+              I make films and I build businesses.
             </p>
-            <p 
-              className="text-2xl md:text-3xl font-semibold tracking-wide text-foreground mb-10"
-              data-testid="text-soul-heart-hands"
-            >
-              Soul.{" "}
-              <span className="mx-2 md:mx-3">Heart.</span>{" "}
-              <span className="ml-2 md:ml-3">Hands.</span>
+            <p className="text-lg text-muted-foreground leading-relaxed mb-8 max-w-xl" data-testid="text-hero-intro">
+              Award-winning filmmaker. Founder of NextMonth, flashbuzz &amp; Hutt Studio. Creator of CharacterX. Based in Banbury, Oxfordshire.
             </p>
             <div className="flex flex-wrap gap-4">
               <Button
@@ -146,40 +137,13 @@ export default function Home() {
               >
                 Get in touch
               </Button>
-            </div>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Button size="lg" asChild data-testid="button-take-scorecard">
-                <a href={SCORECARD_URL} target="_blank" rel="noopener noreferrer">
-                  Take the scorecard
+              <Button size="lg" asChild data-testid="button-strategy-session">
+                <a href={MEETNORMAN_URL} target="_blank" rel="noopener noreferrer">
+                  Start a free strategy session
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </a>
               </Button>
             </div>
-            <div className="mt-6">
-              <PlannerCta
-                headline="Get your free 90-day planner"
-                body="Finish the Scorecard and your plan appears instantly. No login."
-                buttonLabel="Create my plan"
-                href={PLANNER_URL}
-              />
-            </div>
-          </div>
-        </Section>
-
-        <Section id="pillars" className="border-t border-border/30">
-          <div className="grid md:grid-cols-3 gap-10 md:gap-16">
-            <PillarCard 
-              title="Soul" 
-              description={`Understanding what truly matters.\nThe belief behind a business. The truth inside a story.`}
-            />
-            <PillarCard 
-              title="Heart" 
-              description={`Connection, empathy, trust.\nHow something feels is as important as how it functions.`}
-            />
-            <PillarCard 
-              title="Hands" 
-              description={`Execution and craft.\nIdeas only matter when they are built properly and delivered into the real world.`}
-            />
           </div>
         </Section>
 
@@ -189,74 +153,66 @@ export default function Home() {
           </h2>
           <div className="grid md:grid-cols-2 gap-6">
             <WorkCard
-              id="rob-hutt-films"
-              title="Rob Hutt Films"
-              image="https://res.cloudinary.com/drl0fxrkq/image/upload/v1769465047/Screenshot_2026-01-26_at_22.03.51_uajuaq.png"
-              paragraphs={[
-                "I'm an award-winning filmmaker with international festival recognition, creating narrative and commercial films that prioritise emotion, atmosphere, and story integrity.",
-                "Film is where my creative instincts were formed, and it remains the foundation of everything else I do."
-              ]}
-              bulletPoints={[
-                "Strong visual language",
-                "Human-led storytelling",
-                "Films that linger rather than shout"
-              ]}
-            />
-            <WorkCard
-              id="hutt-studio"
-              title="Hutt Studio"
+              id="norman"
+              title="Norman — Your AI Growth Strategist"
+              href="https://meetnorman.io"
               image="https://res.cloudinary.com/drl0fxrkq/image/upload/v1769464968/Screenshot_2026-01-26_at_22.02.32_eb6laa.png"
               paragraphs={[
-                "Hutt Studio is where story meets structure.",
-                "It's the home for my work across marketing strategy, creative technology, and advisory - helping organisations make sense of complexity and communicate with confidence.",
-                "The studio operates across three core areas:"
+                "Norman is an AI strategist who builds your growth plan, then shows up every day to help you deliver it.",
+                "He finds prospects, creates content, runs workshops, and manages your pipeline. He's not a chatbot — he uses real tools and takes real action."
               ]}
             />
             <WorkCard
               id="characterx"
-              title="CharacterX"
+              title="CharacterX — The Cinematic Transformation Framework"
+              href="https://character-x.com"
               image="https://res.cloudinary.com/drl0fxrkq/image/upload/v1769463371/Screenshot_2026-01-26_at_21.35.56_kcexcb.png"
               paragraphs={[
-                "A strategic system for understanding who a brand really is, and how it should show up.",
-                "CharacterX helps leaders and teams:",
-                "Less noise. More signal."
-              ]}
-              bulletPoints={[
-                "Clarify positioning",
-                "Build trust deliberately",
-                "Communicate with consistency and restraint"
+                "A strategic framework that turns customers into protagonists, brands into guides, and every interaction into a scene in a transformation story.",
+                "10 chapters. One methodology. A fundamentally different way to build a business. The book is available on Amazon."
               ]}
             />
             <WorkCard
               id="icemaker"
-              title="IceMaker"
+              title="IceMaker — Professional Video, Zero Production"
+              href="https://icemaker.app"
               image="https://res.cloudinary.com/drl0fxrkq/image/upload/v1769463437/Screenshot_2026-01-26_at_21.37.03_xz8mxa.png"
               paragraphs={[
-                "An interactive cinematic experience platform for turning knowledge, ideas, and stories into guided visual journeys.",
-                "It exists because most information is badly communicated, and doesn't need to be."
+                "Turn any content into interactive video with AI-generated visuals, your cloned voice, and characters that present for you.",
+                "No cameras. No crew. No editing skills."
               ]}
-              bulletPoints={[
-                "Film language",
-                "Interactive design",
-                "AI collaboration"
+            />
+            <WorkCard
+              id="nextmonth"
+              title="NextMonth — The Growth Platform"
+              href="https://nextmonth.io"
+              image="https://res.cloudinary.com/drl0fxrkq/image/upload/v1769465047/Screenshot_2026-01-26_at_22.03.51_uajuaq.png"
+              paragraphs={[
+                "The platform that houses everything. An AI guide, a personalised strategy, and the tools to deliver it — video production, prospecting, CRM, workshops, and more.",
+                "Start with a free conversation. Your plan in 10 minutes."
               ]}
             />
           </div>
-          <div className="mt-6">
+
+          <p className="text-muted-foreground text-sm uppercase tracking-wide mt-12 mb-6">Personal work</p>
+          <div className="grid md:grid-cols-2 gap-6">
+            <WorkCard
+              id="rob-hutt-films"
+              title="Robert Hutt Films"
+              image="https://res.cloudinary.com/drl0fxrkq/image/upload/v1769465047/Screenshot_2026-01-26_at_22.03.51_uajuaq.png"
+              paragraphs={[
+                "Writer and director of independent short films. My debut 'Time Spent' won 23 international awards with a 9.2 IMDb rating.",
+                "Filmmaking is where every idea about story, character and transformation started. The same instincts that shape a screenplay shape how I build brands and platforms."
+              ]}
+            />
             <WorkCard
               id="flashbuzz"
-              title="FlashBuzz"
+              title="flashbuzz"
               image="https://res.cloudinary.com/drl0fxrkq/image/upload/v1769463477/Screenshot_2026-01-26_at_21.37.44_jmxlon.png"
               paragraphs={[
                 "A video-led marketing consultancy working with SMEs, professional services, and regulated environments.",
-                "Especially useful where leaders or teams are not naturally camera-confident."
+                "Especially useful where leaders or teams are not naturally camera-confident. Trust-building communication through narrative-driven video."
               ]}
-              bulletPoints={[
-                "Trust-building communication",
-                "Narrative-driven video",
-                "Calm, considered delivery where confidence matters"
-              ]}
-              fullWidth
             />
           </div>
         </Section>
@@ -287,14 +243,21 @@ export default function Home() {
             <p className="text-muted-foreground mb-8" data-testid="text-availability-cta">
               If the work feels aligned, I'm always open to a conversation.
             </p>
-            <Button 
-              size="lg"
-              onClick={() => scrollTo("contact")}
-              data-testid="button-start-conversation"
-            >
-              Start a conversation
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
+            <div className="flex flex-wrap gap-4">
+              <Button
+                size="lg"
+                onClick={() => scrollTo("contact")}
+                data-testid="button-start-conversation"
+              >
+                Start a conversation
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+              <Button size="lg" variant="outline" asChild data-testid="button-strategy-norman">
+                <a href={MEETNORMAN_URL} target="_blank" rel="noopener noreferrer">
+                  Or start a free strategy session with Norman
+                </a>
+              </Button>
+            </div>
           </div>
         </Section>
 
@@ -305,8 +268,8 @@ export default function Home() {
             </h2>
             <div className="flex items-center gap-3 mb-6 flex-wrap">
               <Mail className="w-5 h-5 text-accent" />
-              <a 
-                href="mailto:hello@robhutt.com" 
+              <a
+                href="mailto:hello@robhutt.com"
                 className="text-foreground"
                 data-testid="link-email"
               >
@@ -322,10 +285,10 @@ export default function Home() {
         <Section className="border-t border-border/30 py-16" id="closing">
           <div className="text-center" data-testid="closing-statement">
             <p className="text-lg md:text-xl text-muted-foreground italic" data-testid="text-closing-1">
-              I don't believe in hype.
+              I make films. I build businesses.
             </p>
             <p className="text-lg md:text-xl text-foreground mt-1" data-testid="text-closing-2">
-              I believe in good work, done properly.
+              If the work feels aligned, I'm always open to a conversation.
             </p>
           </div>
         </Section>
