@@ -6,7 +6,7 @@ import { Footer } from "@/components/Footer";
 import { PlannerCta } from "@/components/PlannerCta";
 import { ArrowRight, Check, Compass, Heart, Wrench } from "lucide-react";
 import { motion, useInView } from "framer-motion";
-import { SCORECARD_URL, PLANNER_URL } from "@/lib/constants";
+import { SCORECARD_URL, PLANNER_URL, MEETNORMAN_URL, CHARACTERX_URL } from "@/lib/constants";
 
 // Animation variants for scroll-triggered animations
 const fadeInUp = {
@@ -345,7 +345,7 @@ export default function Method() {
               <div className="flex flex-wrap gap-4">
                 <Button size="lg" asChild>
                   <a href={SCORECARD_URL} target="_blank" rel="noopener noreferrer">
-                    Take the scorecard
+                    Take the Scorecard
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </a>
                 </Button>
@@ -595,7 +595,7 @@ export default function Method() {
               <div className="mt-4">
                 <Button size="sm" asChild>
                   <a href={SCORECARD_URL} target="_blank" rel="noopener noreferrer">
-                    Get your full score
+                    Get your full CharacterX score
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </a>
                 </Button>
@@ -665,8 +665,18 @@ export default function Method() {
               <div className="flex flex-wrap gap-4 justify-center">
                 <Button size="lg" asChild>
                   <a href={SCORECARD_URL} target="_blank" rel="noopener noreferrer">
-                    Take the scorecard
+                    Take the CharacterX Scorecard
                     <ArrowRight className="w-4 h-4 ml-2" />
+                  </a>
+                </Button>
+                <Button variant="outline" size="lg" asChild>
+                  <a href={MEETNORMAN_URL} target="_blank" rel="noopener noreferrer">
+                    Start a free strategy session with Norman
+                  </a>
+                </Button>
+                <Button variant="outline" size="lg" asChild>
+                  <a href={CHARACTERX_URL} target="_blank" rel="noopener noreferrer">
+                    Get the CharacterX book
                   </a>
                 </Button>
                 <Button variant="outline" size="lg" asChild>

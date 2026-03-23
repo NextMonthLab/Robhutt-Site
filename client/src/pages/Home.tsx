@@ -129,31 +129,34 @@ export default function Home() {
               <span className="mx-2 md:mx-3">Heart.</span>{" "}
               <span className="ml-2 md:ml-3">Hands.</span>
             </p>
-            <div className="flex flex-wrap gap-4">
-              <Button
-                size="lg"
-                onClick={() => scrollTo("work")}
-                data-testid="button-view-work"
-              >
-                View the work
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                onClick={() => scrollTo("contact")}
-                data-testid="button-get-in-touch"
-              >
-                Get in touch
-              </Button>
-            </div>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Button size="lg" asChild data-testid="button-take-scorecard">
-                <a href={SCORECARD_URL} target="_blank" rel="noopener noreferrer">
-                  Take the scorecard
+            <div className="space-y-4">
+              <div>
+                <Button size="lg" asChild data-testid="button-take-scorecard">
+                  <a href={SCORECARD_URL} target="_blank" rel="noopener noreferrer">
+                    Take the CharacterX Scorecard
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </a>
+                </Button>
+              </div>
+              <div className="flex flex-wrap gap-4">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  onClick={() => scrollTo("work")}
+                  data-testid="button-view-work"
+                >
+                  View the work
                   <ArrowRight className="w-4 h-4 ml-2" />
-                </a>
-              </Button>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  onClick={() => scrollTo("contact")}
+                  data-testid="button-get-in-touch"
+                >
+                  Get in touch
+                </Button>
+              </div>
             </div>
             <div className="mt-6">
               <PlannerCta
@@ -287,13 +290,22 @@ export default function Home() {
             <p className="text-muted-foreground mb-8" data-testid="text-availability-cta">
               If the work feels aligned, I'm always open to a conversation.
             </p>
-            <Button 
+            <Button
               size="lg"
               onClick={() => scrollTo("contact")}
               data-testid="button-start-conversation"
             >
               Start a conversation
               <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
+            <p className="text-muted-foreground text-sm mt-6 mb-3">
+              Not sure where to start? Take a 5-minute diagnostic.
+            </p>
+            <Button variant="outline" size="sm" asChild data-testid="button-availability-scorecard">
+              <a href={SCORECARD_URL} target="_blank" rel="noopener noreferrer">
+                Take the CharacterX Scorecard
+                <ArrowRight className="w-4 h-4 ml-1" />
+              </a>
             </Button>
           </div>
         </Section>
