@@ -1,12 +1,11 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { NavBar } from "@/components/NavBar";
 import { Section } from "@/components/Section";
 import { Footer } from "@/components/Footer";
-import { PlannerCta } from "@/components/PlannerCta";
 import { ArrowRight, Check, Compass, Heart, Wrench } from "lucide-react";
 import { motion, useInView } from "framer-motion";
-import { SCORECARD_URL, PLANNER_URL } from "@/lib/constants";
+import { MEETNORMAN_URL, CHARACTERX_URL, NEXTMONTH_URL } from "@/lib/constants";
 
 // Animation variants for scroll-triggered animations
 const fadeInUp = {
@@ -122,14 +121,14 @@ function BrandExampleTile({
   takeaway
 }: {
   brand: string;
-  pillar: "Soul" | "Heart" | "Hands";
+  pillar: "Character" | "Story" | "System";
   recognisedFor: string;
   takeaway: string;
 }) {
   const pillarColors = {
-    Soul: "bg-blue-500/10 text-blue-400 border-blue-500/20",
-    Heart: "bg-rose-500/10 text-rose-400 border-rose-500/20",
-    Hands: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+    Character: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+    Story: "bg-rose-500/10 text-rose-400 border-rose-500/20",
+    System: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
   };
 
   return (
@@ -200,20 +199,24 @@ function DiagnosisBlock({
   );
 }
 
-// Offer card
+// Offer card with CTA
 function OfferCard({
   title,
   pillar,
   forWho,
   whatYouGet,
-  outcome
+  outcome,
+  href
 }: {
   title: string;
   pillar: string;
   forWho: string;
   whatYouGet: string[];
   outcome: string;
+  href: string;
 }) {
+  const isMailto = href.startsWith("mailto:");
+
   return (
     <motion.div
       whileHover={{ y: -4 }}
@@ -241,13 +244,28 @@ function OfferCard({
 
       <div className="flex gap-2">
         <Button size="sm" asChild>
-          <a href={SCORECARD_URL} target="_blank" rel="noopener noreferrer">
-            Take the scorecard
+          <a href={href} target={isMailto ? undefined : "_blank"} rel={isMailto ? undefined : "noopener noreferrer"}>
+            {isMailto ? "Get in touch" : "Get started"}
+            <ArrowRight className="w-4 h-4 ml-1" />
           </a>
         </Button>
-        <Button size="sm" variant="outline" asChild>
-          <a href="/#contact">Get in touch</a>
-        </Button>
+      </div>
+    </motion.div>
+  );
+}
+
+// Chapter list item
+function ChapterItem({ number, title, description }: { number: number; title: string; description: string }) {
+  return (
+    <motion.div
+      whileHover={{ x: 4 }}
+      transition={{ duration: 0.2 }}
+      className="flex gap-4 items-start py-3 border-b border-border/20 last:border-b-0"
+    >
+      <span className="text-accent font-mono text-sm mt-0.5 shrink-0 w-6 text-right">{number}.</span>
+      <div>
+        <h4 className="font-medium text-foreground text-sm">{title}</h4>
+        <p className="text-xs text-muted-foreground mt-0.5">{description}</p>
       </div>
     </motion.div>
   );
@@ -255,42 +273,42 @@ function OfferCard({
 
 export default function Method() {
   // Self-diagnosis state
-  const [soulChecks, setSoulChecks] = useState([false, false, false]);
-  const [heartChecks, setHeartChecks] = useState([false, false, false]);
-  const [handsChecks, setHandsChecks] = useState([false, false, false]);
+  const [characterChecks, setCharacterChecks] = useState([false, false, false]);
+  const [storyChecks, setStoryChecks] = useState([false, false, false]);
+  const [systemChecks, setSystemChecks] = useState([false, false, false]);
 
-  const soulScore = soulChecks.filter(Boolean).length;
-  const heartScore = heartChecks.filter(Boolean).length;
-  const handsScore = handsChecks.filter(Boolean).length;
+  const characterScore = characterChecks.filter(Boolean).length;
+  const storyScore = storyChecks.filter(Boolean).length;
+  const systemScore = systemChecks.filter(Boolean).length;
 
   const getDiagnosisMessage = () => {
-    const total = soulScore + heartScore + handsScore;
+    const total = characterScore + storyScore + systemScore;
     if (total === 0) return null;
 
     const strengths: string[] = [];
     const weaknesses: string[] = [];
 
-    if (soulScore >= 2) strengths.push("Soul");
-    else if (soulScore <= 1) weaknesses.push("Soul");
+    if (characterScore >= 2) strengths.push("Character");
+    else if (characterScore <= 1) weaknesses.push("Character");
 
-    if (heartScore >= 2) strengths.push("Heart");
-    else if (heartScore <= 1) weaknesses.push("Heart");
+    if (storyScore >= 2) strengths.push("Story");
+    else if (storyScore <= 1) weaknesses.push("Story");
 
-    if (handsScore >= 2) strengths.push("Hands");
-    else if (handsScore <= 1) weaknesses.push("Hands");
+    if (systemScore >= 2) strengths.push("System");
+    else if (systemScore <= 1) weaknesses.push("System");
 
     if (strengths.length === 3) {
-      return "Strong across all three pillars. Your marketing foundation is solid.";
+      return "Strong across all three pillars. Your foundation is solid.";
     }
 
     if (weaknesses.length === 3) {
-      return "There is room to strengthen all three areas. Start with Soul to establish direction.";
+      return "There is room to strengthen all three areas. Start with Character to establish direction.";
     }
 
     const interpretations: Record<string, string> = {
-      "Soul": "You may have good ideas that lack clear direction or positioning.",
-      "Heart": "Your work might feel functional but not emotionally resonant.",
-      "Hands": "Great ideas, but they may not ship consistently or systematically."
+      "Character": "You may have good ideas that lack clear direction or customer understanding.",
+      "Story": "Your work might feel functional but not emotionally resonant.",
+      "System": "Great ideas, but they may not ship consistently or systematically."
     };
 
     if (weaknesses.length > 0) {
@@ -336,60 +354,41 @@ export default function Method() {
         <Section className="pt-32 pb-20 md:pt-40 md:pb-28">
           <AnimatedSection>
             <div className="max-w-3xl">
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6">
-                Soul. Heart. Hands.
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-4">
+                CharacterX
               </h1>
-              <p className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-2xl">
-                A practical way to make marketing clearer, more human, and easier to execute.
+              <p className="text-xl md:text-2xl text-muted-foreground mb-6">
+                Stop selling. Start directing.
+              </p>
+              <p className="text-lg text-muted-foreground leading-relaxed mb-10 max-w-2xl">
+                CharacterX is the framework I developed that applies cinematic storytelling principles to business transformation. It treats the customer as the protagonist and the brand as the guide. 10 chapters. One methodology.
               </p>
               <div className="flex flex-wrap gap-4">
                 <Button size="lg" asChild>
-                  <a href={SCORECARD_URL} target="_blank" rel="noopener noreferrer">
-                    Take the scorecard
+                  <a href={MEETNORMAN_URL} target="_blank" rel="noopener noreferrer">
+                    Start Your Strategy with Norman
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </a>
                 </Button>
                 <Button variant="outline" size="lg" asChild>
-                  <a href="/#contact">Get in touch</a>
+                  <a href={CHARACTERX_URL} target="_blank" rel="noopener noreferrer">
+                    Get the Book
+                  </a>
                 </Button>
               </div>
-              <div className="mt-10">
-                <PlannerCta
-                  headline="Get your free 90-day planner"
-                  body="Finish the Scorecard and your plan appears instantly. No login."
-                  buttonLabel="Create my plan"
-                  href={PLANNER_URL}
-                />
-              </div>
             </div>
           </AnimatedSection>
         </Section>
 
-        {/* SECTION 2: The problem it solves */}
+        {/* SECTION 2: The Core Idea — three pillar cards */}
         <Section className="border-t border-border/30">
           <AnimatedSection>
-            <div className="max-w-2xl">
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-8">
-                The problem it solves
-              </h2>
-              <div className="space-y-4 text-lg text-muted-foreground leading-relaxed">
-                <p>Most marketing fails not because of lack of effort, but because effort is scattered.</p>
-                <p>Some brands lack direction. They do not know what they stand for or why anyone should care.</p>
-                <p>Others lack trust. Their work feels transactional, not human.</p>
-                <p>Many lack execution. Good ideas that never ship, or ship badly.</p>
-                <p>This framework identifies which constraint is holding you back, then fixes it.</p>
-                <p>Fix the right thing first, and the rest becomes easier.</p>
-              </div>
-            </div>
-          </AnimatedSection>
-        </Section>
-
-        {/* SECTION 3: Three pillar cards */}
-        <Section className="border-t border-border/30">
-          <AnimatedSection>
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-12">
-              The three pillars
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+              The core idea
             </h2>
+            <p className="text-muted-foreground mb-12 max-w-2xl">
+              Every business transformation has three dimensions. CharacterX gives each one a name and a diagnostic.
+            </p>
           </AnimatedSection>
           <motion.div
             variants={staggerContainer}
@@ -399,39 +398,39 @@ export default function Method() {
             className="grid md:grid-cols-3 gap-6"
           >
             <PillarDetailCard
-              pillar="Soul"
+              pillar="Character"
               icon={Compass}
-              definition="Direction and positioning. Knowing what you stand for and why it matters. The strategic clarity that everything else builds on."
+              definition="Understanding who your customer really is. The identity they hold today, the identity they're moving toward, and the gap only you can bridge."
               whenMissing={[
                 "Messaging changes constantly",
                 "Competitors feel interchangeable with you",
-                "Team cannot articulate what makes you different"
+                "Team cannot articulate the transformation you facilitate"
               ]}
               whenStrong={[
-                "Clear point of view that guides decisions",
-                "Positioning that feels distinctive and owned",
-                "Everyone can explain the core story"
+                "Clear understanding of the customer's identity shift",
+                "Positioning built around who they're becoming",
+                "Everyone can explain the core transformation"
               ]}
             />
             <PillarDetailCard
-              pillar="Heart"
+              pillar="Story"
               icon={Heart}
-              definition="Trust and human connection. How your brand makes people feel. The emotional resonance that turns transactions into relationships."
+              definition="Connection, empathy, narrative. How every interaction becomes a scene in a larger transformation story."
               whenMissing={[
-                "Content feels corporate and forgettable",
+                "Content feels like a brochure, not a narrative",
                 "Audience engages but does not trust",
                 "Sales conversations start from scratch every time"
               ]}
               whenStrong={[
-                "Tone of voice that feels genuinely human",
+                "Content feels like a story customers want to be part of",
                 "Trust established before the first conversation",
-                "Customers become advocates naturally"
+                "Every touchpoint feels like a scene in the same story"
               ]}
             />
             <PillarDetailCard
-              pillar="Hands"
+              pillar="System"
               icon={Wrench}
-              definition="Systems and execution. The operational infrastructure that turns strategy into consistent output. Ideas that actually ship."
+              definition="Execution and orchestration. The repeatable mechanisms that make transformation predictable, not accidental."
               whenMissing={[
                 "Good ideas that never get finished",
                 "Quality varies unpredictably",
@@ -439,11 +438,35 @@ export default function Method() {
               ]}
               whenStrong={[
                 "Repeatable systems that scale",
-                "Consistent quality without heroic effort",
+                "Transformation is predictable, not accidental",
                 "Marketing compounds over time"
               ]}
             />
           </motion.div>
+        </Section>
+
+        {/* SECTION 3: The 10 Chapters */}
+        <Section className="border-t border-border/30">
+          <AnimatedSection>
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+              The 10 chapters
+            </h2>
+            <p className="text-muted-foreground mb-10 max-w-2xl">
+              CharacterX unfolds across ten components, each building on the last.
+            </p>
+          </AnimatedSection>
+          <div className="max-w-2xl bg-card/30 backdrop-blur-sm border border-border/40 rounded-lg p-6">
+            <ChapterItem number={1} title="Character X" description="Your customer as protagonist" />
+            <ChapterItem number={2} title="Inciting Incident" description="The catalyst moment" />
+            <ChapterItem number={3} title="Missing Scene" description="The transformation gap only you can fill" />
+            <ChapterItem number={4} title="Foundation Trilogy" description="Character + incident + missing scene as engine" />
+            <ChapterItem number={5} title="Props & Locations" description="Tangible anchors and transformation spaces" />
+            <ChapterItem number={6} title="Supporting Characters & Soundtrack" description="The ensemble cast" />
+            <ChapterItem number={7} title="Production Devices" description="Systematic orchestration tools" />
+            <ChapterItem number={8} title="Integration" description="Scene-by-scene mastery" />
+            <ChapterItem number={9} title="Transformation Timeline" description="Time as character" />
+            <ChapterItem number={10} title="Climactic Moment" description="The identity breakthrough" />
+          </div>
         </Section>
 
         {/* SECTION 4: Real-world examples */}
@@ -458,62 +481,62 @@ export default function Method() {
             </p>
           </AnimatedSection>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {/* Soul examples */}
+            {/* Character examples */}
             <BrandExampleTile
               brand="Patagonia"
-              pillar="Soul"
+              pillar="Character"
               recognisedFor="Widely recognised for values-led positioning and a clear point of view on environmental responsibility."
               takeaway="Take a stance on something that matters to your audience, then let it guide every decision."
             />
             <BrandExampleTile
               brand="Apple"
-              pillar="Soul"
+              pillar="Character"
               recognisedFor="Often associated with ruthless focus, product clarity, and a consistent worldview about design and simplicity."
               takeaway="Say no to most things so you can say yes with conviction to the few that matter."
             />
             <BrandExampleTile
               brand="IKEA"
-              pillar="Soul"
+              pillar="Character"
               recognisedFor="Widely recognised for democratic design and a simple, consistent promise about accessible home furnishing."
               takeaway="A clear, ownable promise repeated consistently builds recognition faster than clever campaigns."
             />
 
-            {/* Heart examples */}
+            {/* Story examples */}
             <BrandExampleTile
               brand="Nike"
-              pillar="Heart"
+              pillar="Story"
               recognisedFor="Often associated with emotional storytelling that connects sport to identity and personal aspiration."
               takeaway="Speak to who your customer wants to become, not just what they want to buy."
             />
             <BrandExampleTile
               brand="Innocent Drinks"
-              pillar="Heart"
+              pillar="Story"
               recognisedFor="Widely recognised for a playful, human tone of voice that makes a commodity feel like a friend."
               takeaway="Personality and warmth can differentiate even simple products."
             />
             <BrandExampleTile
               brand="Dove"
-              pillar="Heart"
+              pillar="Story"
               recognisedFor="Often associated with empathy-led campaigns that challenge industry norms and connect with real human experiences."
               takeaway="Understanding your audience's deeper concerns creates trust that transcends product features."
             />
 
-            {/* Hands examples */}
+            {/* System examples */}
             <BrandExampleTile
               brand="McDonald's"
-              pillar="Hands"
+              pillar="System"
               recognisedFor="Widely recognised for operational consistency at scale, delivering a predictable experience globally."
               takeaway="Systemise the repeatable so you can focus energy on what actually needs to be unique."
             />
             <BrandExampleTile
               brand="Amazon"
-              pillar="Hands"
+              pillar="System"
               recognisedFor="Often associated with systems thinking, friction reduction, and relentless operational clarity."
               takeaway="Reduce friction in your processes so good work happens by default, not by heroic effort."
             />
             <BrandExampleTile
               brand="Tesco"
-              pillar="Hands"
+              pillar="System"
               recognisedFor="Widely recognised for consistent communications and repeatable campaigns that maintain brand presence at scale."
               takeaway="Consistency over time beats occasional brilliance. Build systems that keep showing up."
             />
@@ -531,56 +554,47 @@ export default function Method() {
             </p>
           </AnimatedSection>
 
-          <div className="mb-10">
-            <PlannerCta
-              headline="Turn insight into a 90-day mission"
-              body="Weekly actions, milestones, and momentum in minutes."
-              buttonLabel="Build my plan for free"
-              href={PLANNER_URL}
-            />
-          </div>
-
           <div className="grid md:grid-cols-3 gap-6 mb-8">
             <DiagnosisBlock
-              pillar="Soul"
+              pillar="Character"
               items={[
-                "We have a clear, distinctive positioning",
-                "Our team can articulate why we are different",
-                "Our messaging is consistent across channels"
+                "We know who our customer is becoming, not just what they're buying",
+                "Our team can articulate the transformation we facilitate",
+                "Our positioning is built around the customer's identity shift"
               ]}
-              checked={soulChecks}
+              checked={characterChecks}
               onChange={(i) => {
-                const newChecks = [...soulChecks];
+                const newChecks = [...characterChecks];
                 newChecks[i] = !newChecks[i];
-                setSoulChecks(newChecks);
+                setCharacterChecks(newChecks);
               }}
             />
             <DiagnosisBlock
-              pillar="Heart"
+              pillar="Story"
               items={[
-                "Our content feels genuinely human",
+                "Our content feels like a narrative, not a brochure",
                 "Customers trust us before the first call",
-                "Our tone of voice is distinctive and consistent"
+                "Every touchpoint feels like a scene in the same story"
               ]}
-              checked={heartChecks}
+              checked={storyChecks}
               onChange={(i) => {
-                const newChecks = [...heartChecks];
+                const newChecks = [...storyChecks];
                 newChecks[i] = !newChecks[i];
-                setHeartChecks(newChecks);
+                setStoryChecks(newChecks);
               }}
             />
             <DiagnosisBlock
-              pillar="Hands"
+              pillar="System"
               items={[
                 "Good ideas actually get shipped",
-                "Quality is consistent without heroic effort",
-                "Marketing feels systematic, not scrambled"
+                "Transformation is predictable, not accidental",
+                "Our marketing compounds over time, not scrambles week to week"
               ]}
-              checked={handsChecks}
+              checked={systemChecks}
               onChange={(i) => {
-                const newChecks = [...handsChecks];
+                const newChecks = [...systemChecks];
                 newChecks[i] = !newChecks[i];
-                setHandsChecks(newChecks);
+                setSystemChecks(newChecks);
               }}
             />
           </div>
@@ -594,8 +608,8 @@ export default function Method() {
               <p className="text-foreground">{diagnosisMessage}</p>
               <div className="mt-4">
                 <Button size="sm" asChild>
-                  <a href={SCORECARD_URL} target="_blank" rel="noopener noreferrer">
-                    Get your full score
+                  <a href={MEETNORMAN_URL} target="_blank" rel="noopener noreferrer">
+                    Start your free strategy session with Norman
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </a>
                 </Button>
@@ -604,7 +618,7 @@ export default function Method() {
           )}
         </Section>
 
-        {/* SECTION 6: How Rob helps */}
+        {/* SECTION 6: How I can help */}
         <Section className="border-t border-border/30">
           <AnimatedSection>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
@@ -617,37 +631,40 @@ export default function Method() {
 
           <div className="grid md:grid-cols-3 gap-6">
             <OfferCard
-              title="Clarity and Positioning Sprint"
-              pillar="Soul"
-              forWho="For founders and leaders who need to articulate what makes them different."
+              title="CharacterX Sprint"
+              pillar="Character"
+              forWho="For founders and leaders who need to understand their customer's transformation."
               whatYouGet={[
-                "Deep-dive positioning workshop",
-                "Core messaging framework",
-                "Decision filters for future clarity"
+                "Map your Character X",
+                "Find your Missing Scene",
+                "Design your transformation strategy"
               ]}
-              outcome="Walk away with a clear, ownable position and the language to communicate it."
+              outcome="Walk away with a clear understanding of who your customer is becoming and how you guide that journey."
+              href="mailto:hello@robhutt.com?subject=CharacterX%20Sprint"
             />
             <OfferCard
-              title="Human Presence Kit"
-              pillar="Heart"
-              forWho="For teams who want their marketing to feel more human and trustworthy."
+              title="Content & Video Strategy"
+              pillar="Story"
+              forWho="For teams who want narrative-driven video and content that builds trust."
               whatYouGet={[
-                "Tone of voice guidelines",
-                "Story and video strategy",
-                "Content that builds trust before the sale"
+                "Story-led content strategy",
+                "Video production planning",
+                "flashbuzz meets CharacterX"
               ]}
-              outcome="Marketing that makes people feel something, not just scroll past."
+              outcome="Content that feels like a story customers want to be part of, not a brochure they scroll past."
+              href="mailto:hello@robhutt.com?subject=Content%20Strategy"
             />
             <OfferCard
-              title="Marketing System Build"
-              pillar="Hands"
-              forWho="For businesses ready to make marketing feel less like chaos and more like a system."
+              title="Growth System Build"
+              pillar="System"
+              forWho="For businesses ready to connect strategy to execution."
               whatYouGet={[
-                "Content operations audit",
-                "Repeatable production workflows",
-                "Hybrid strategy and implementation"
+                "NextMonth platform setup",
+                "Norman as your growth engine",
+                "Repeatable production workflows"
               ]}
               outcome="Marketing that compounds over time, with less firefighting."
+              href={NEXTMONTH_URL}
             />
           </div>
         </Section>
@@ -657,16 +674,21 @@ export default function Method() {
           <AnimatedSection>
             <div className="text-center max-w-2xl mx-auto">
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">
-                If you want marketing that compounds, fix the constraint first.
+                Ready to start directing?
               </h2>
               <p className="text-muted-foreground mb-10">
                 Find out where your biggest opportunity lies.
               </p>
               <div className="flex flex-wrap gap-4 justify-center">
                 <Button size="lg" asChild>
-                  <a href={SCORECARD_URL} target="_blank" rel="noopener noreferrer">
-                    Take the scorecard
+                  <a href={MEETNORMAN_URL} target="_blank" rel="noopener noreferrer">
+                    Start a free strategy session with Norman
                     <ArrowRight className="w-4 h-4 ml-2" />
+                  </a>
+                </Button>
+                <Button variant="outline" size="lg" asChild>
+                  <a href={CHARACTERX_URL} target="_blank" rel="noopener noreferrer">
+                    Get the CharacterX book
                   </a>
                 </Button>
                 <Button variant="outline" size="lg" asChild>
@@ -681,10 +703,10 @@ export default function Method() {
         <Section className="border-t border-border/30 py-16">
           <div className="text-center">
             <p className="text-lg md:text-xl text-muted-foreground italic">
-              Clarity, trust, and execution.
+              Your customer is the protagonist.
             </p>
             <p className="text-lg md:text-xl text-foreground mt-1">
-              In that order.
+              You are the guide.
             </p>
           </div>
         </Section>

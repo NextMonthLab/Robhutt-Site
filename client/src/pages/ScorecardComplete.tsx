@@ -2,9 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { NavBar } from "@/components/NavBar";
 import { Section } from "@/components/Section";
 import { Footer } from "@/components/Footer";
-import { PlannerCta } from "@/components/PlannerCta";
 import { Button } from "@/components/ui/button";
-import { SCORECARD_URL } from "@/lib/constants";
+import { MEETNORMAN_URL } from "@/lib/constants";
 
 type CompletionState =
   | { status: "idle" }
@@ -43,7 +42,7 @@ export default function ScorecardComplete() {
     if (!payload) {
       setState({
         status: "error",
-        message: "We couldn't find your scorecard results. Please complete the Scorecard again.",
+        message: "We couldn't find your scorecard results. The scorecard has been replaced by a free strategy session with Norman.",
       });
       return;
     }
@@ -60,12 +59,12 @@ export default function ScorecardComplete() {
         });
 
         if (!response.ok) {
-          throw new Error("We couldn't build your plan just yet. Please try again.");
+          throw new Error("We couldn't build your plan just yet. Please try a free strategy session with Norman instead.");
         }
 
         const data = (await response.json()) as { editUrl?: string };
         if (!data.editUrl) {
-          throw new Error("We couldn't load your planner link. Please try again.");
+          throw new Error("We couldn't load your planner link. Please try a free strategy session with Norman instead.");
         }
 
         setEditUrl(data.editUrl);
@@ -87,13 +86,6 @@ export default function ScorecardComplete() {
       <main className="relative z-10 pt-24">
         <Section className="pt-24 pb-20 md:pt-32 md:pb-24">
           <div className="space-y-10">
-            <PlannerCta
-              headline="Not another PDF. A proper plan."
-              body="Built automatically from your Scorecard results."
-              buttonLabel="See the 90-day planner"
-              href={editUrl ?? SCORECARD_URL}
-            />
-
             <div className="bg-card/40 border border-border/50 rounded-xl p-6">
               {state.status === "loading" && (
                 <p className="text-lg text-foreground font-medium">Building your 90-day plan…</p>
@@ -103,19 +95,19 @@ export default function ScorecardComplete() {
                   <p className="text-lg text-foreground font-medium">{state.message}</p>
                   <div className="flex flex-wrap gap-3">
                     <Button asChild>
-                      <a href={SCORECARD_URL} target="_blank" rel="noopener noreferrer">
-                        Retake the scorecard
+                      <a href={MEETNORMAN_URL} target="_blank" rel="noopener noreferrer">
+                        Start a free strategy session
                       </a>
                     </Button>
                     <Button variant="outline" asChild>
-                      <a href="/method">Back to the method</a>
+                      <a href="/method">Back to CharacterX</a>
                     </Button>
                   </div>
                 </div>
               )}
               {state.status === "idle" && (
                 <p className="text-muted-foreground">
-                  Preparing your handoff to the 90-day planner.
+                  Preparing your handoff…
                 </p>
               )}
             </div>
