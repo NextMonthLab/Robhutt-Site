@@ -106,8 +106,18 @@ export default function Home() {
       <NavBar />
       
       <main className="relative z-10 pt-24">
-        <Section className="pt-32 pb-20 md:pt-40 md:pb-28">
-          <div className="max-w-2xl">
+        <Section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
+          <div
+            className="absolute inset-0 z-0"
+            style={{
+              backgroundImage: `url("https://res.cloudinary.com/drl0fxrkq/image/upload/v1774259033/33A7EB52-6835-4874-AC0B-C9FF928180D1_hwqh52.png")`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+          />
+          <div className="absolute inset-0 z-0 bg-background/60" />
+          <div className="max-w-2xl relative z-10">
             <h1 
               className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6"
               data-testid="text-hero-title"
