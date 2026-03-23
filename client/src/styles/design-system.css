@@ -1,0 +1,25 @@
+/* NextMonth Design System Tokens */
+:root {
+  --nm-bg:           #0A0A0B;
+  --nm-surface:      #111114;
+  --nm-surface-2:    #18181C;
+  --nm-surface-3:    #202026;
+  --nm-border:       #2A2A32;
+  --nm-border-soft:  #1E1E24;
+  --nm-text:         #F0EDE8;
+  --nm-text-muted:   #6B6875;
+  --nm-text-dim:     #3D3B44;
+
+  --nm-font-display: 'Bebas Neue', 'Anton', sans-serif;
+  --nm-font-body:    'DM Sans', sans-serif;
+  --nm-font-mono:    'JetBrains Mono', monospace;
+
+  --nm-radius-sm:  4px;
+  --nm-radius-md:  8px;
+  --nm-radius-lg:  12px;
+
+  /* Semantic colours */
+  --nm-error:   #E05A5A;
+  --nm-warning: #F59E0B;
+  --nm-success: #22C55E;
+}

@@ -1,0 +1,7 @@
+/* Module-specific accent overrides */
+[data-module="scorecards"] {
+  --accent:      #4A90D4;
+  --accent-dim:  rgba(74, 144, 212, 0.12);
+  --accent-glow: rgba(74, 144, 212, 0.25);
+  --accent-text: #4A90D4;
+}
