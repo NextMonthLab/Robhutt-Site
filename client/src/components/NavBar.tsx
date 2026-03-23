@@ -32,7 +32,7 @@ export function NavBar() {
             asChild
             data-testid="button-nav-method"
           >
-            <Link href="/method">Method</Link>
+            <Link href="/method">CharacterX</Link>
           </Button>
           {isHomePage ? (
             <>

@@ -16,6 +16,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/method" component={Method} />
+      <Route path="/characterx" component={Method} />
       <Route path="/planner/:plannerId" component={Planner} />
       <Route path="/scorecards/:slug" component={PublicScorecardPage} />
       <Route path="/scorecard/complete" component={ScorecardComplete} />
