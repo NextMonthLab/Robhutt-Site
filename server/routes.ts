@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { createHmac, timingSafeEqual } from "crypto";
 import { z } from "zod";
 import { storage, type PlannerPlan, type ScorecardInsights } from "./storage";
+import strategyBuilderRoutes from "./strategyBuilderRoutes";
 
 const scorecardInsightsSchema = z.object({
   primaryGoal: z.string().min(1),
@@ -156,6 +157,15 @@ export async function registerRoutes(
 
   // use storage to perform CRUD operations on the storage interface
   // e.g. storage.insertUser(user) or storage.getUserByUsername(username)
+
+  // Strategy builder routes
+  app.use("/api/strategy", strategyBuilderRoutes);
+
+  // Auth status check (used by StrategyBuilderPage to detect guest vs authenticated)
+  app.get("/api/auth/status", (req, res) => {
+    const user = (req as any).user;
+    res.json({ authenticated: !!user?.id, user: user ? { id: user.id } : null });
+  });
 
   app.post("/api/public/planner/from-scorecard", async (req, res) => {
     const rateLimitStatus = rateLimit(req);
