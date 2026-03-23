@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+@import './styles/design-system.css';
+@import './styles/module-accents.css';
+
 /* LIGHT MODE - Using dark theme as default per requirements */
 :root {
   --button-outline: rgba(255,255,255, .10);
